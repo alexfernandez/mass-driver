@@ -11,10 +11,9 @@ const w0 = 50
 const w1 = 950
 const h0 = 50
 const h1 = 700
-const xmax = 400000
 const g = 9.8
 let ctx, updater
-let ymax, area, drag, mass, lift
+let xmax, ymax, area, drag, mass, lift
 const dt = 0.1
 
 window.onload = () => {
@@ -31,10 +30,12 @@ function runSimulation() {
   const canvas = document.getElementById('canvas');
   ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, 1024, 768)
+  const maxLength = getParameter('maxlength')
   const maxHeight = getParameter('maxheight')
+  xmax = maxLength * 1000
   ymax = maxHeight * 1000
-  ctx.strokeText(maxHeight + ' km', w0, h0)
   ctx.strokeText((xmax / 1000).toFixed(0) + ' km', w1, h1)
+  ctx.strokeText((ymax / 1000).toFixed(0) + ' km', w0, h0)
   ctx.moveTo(w0, h1)
   ctx.lineTo(w1, h1)
   ctx.lineTo(w1, h0)
@@ -114,7 +115,7 @@ function draw() {
   const v = Math.sqrt(vx * vx + vy * vy)
   ctx.strokeText('v = ' + (v / 1000).toFixed(1) + ' km/s', 700, 10)
   const a = Math.sqrt(ax * ax + ay * ay)
-  ctx.strokeText('a = ' + (a / 1000).toFixed(2) + ' km/s^2', 900, 10)
+  ctx.strokeText('a = ' + a.toFixed(2) + ' m/s^2', 900, 10)
   const px = w0 + (x / xmax) * (w1 - w0)
   const py = h1 - (y / ymax) * (h1 - h0)
   ctx.fillRect(px, py, 1, 1)
