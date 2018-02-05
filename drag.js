@@ -14,7 +14,7 @@ const h1 = 700
 const xmax = 400000
 const g = 9.8
 let ctx, updater
-let ymax, area, drag, mass
+let ymax, area, drag, mass, lift
 const dt = 0.1
 
 window.onload = () => {
@@ -46,6 +46,7 @@ function runSimulation() {
   area = getParameter('area')
   drag = getParameter('drag')
   mass = getParameter('mass')
+  lift = getParameter('lift')
   vx = v0 * Math.cos(angle * Math.PI / 180)
   vy = v0 * Math.sin(angle * Math.PI / 180)
   x = 0
@@ -71,10 +72,10 @@ function getParameter(name) {
 function update() {
   t = t + dt
   const density = computeDensity(y)
-  const fdx = 1/2 * drag * density * vx * vx * area
-  const fdy = 1/2 * drag * density * vy * vy * area
-  ax = - fdx / mass
-  ay = - g - fdy / mass
+  const fdx = - 1/2 * drag * density * vx * vx * area * Math.sign(vx)
+  const fdy = - 1/2 * drag * density * vy * vy * area * Math.sign(vy)
+  ax = fdx / mass
+  ay = lift - g + fdy / mass
   vx += ax * dt
   vy += ay * dt
   x += vx * dt
