@@ -11,7 +11,7 @@ accelerated to scape velocity
 (with some margin for speed lost to drag).
 It is driven up there using a linear motor,
 essentially a large coilgun in a tunnel
-where a near vaccuum is kept.
+where a near vacuum has been created.
 
 ## Simulation
 
