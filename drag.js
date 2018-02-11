@@ -1,12 +1,10 @@
 'use strict'
 
 let t = 0
-let x = 0
-let y = 0
-let vx = 0
-let vy = 0
-let ax = 0
-let ay = 0
+let x = 0, y = 0
+let vx = 0, vy = 0
+let ax = 0, ay = 0
+let initx = 0, inity = 0
 const w0 = 50
 const w1 = 950
 const h0 = 70
@@ -52,8 +50,10 @@ function runSimulation() {
   lift = getParameter('lift')
   vx = v0 * Math.cos(angle * Math.PI / 180)
   vy = v0 * Math.sin(angle * Math.PI / 180)
-  x = 0
-  y = getParameter('height')
+  initx = 0
+  inity = getParameter('height')
+  x = initx
+  y = inity
   start()
 }
 
@@ -112,8 +112,10 @@ function computeTemperature(h) {
 function draw() {
   ctx.clearRect(0, 0, 1024, fontSize * 3.5)
   ctx.fillText('t = ' + t.toFixed(1) + ' s', 100, fontSize)
-  ctx.fillText('x = ' + (x / 1000).toFixed(1) + ' km', 300, fontSize)
-  ctx.fillText('y = ' + (y / 1000).toFixed(1) + ' km', 300, fontSize * 2)
+  const d = Math.sqrt((x - initx) * (x - initx) + (y - inity) * (y - inity))
+  ctx.fillText('d = ' + (d / 1000).toFixed(1) + ' km', 300, fontSize)
+  ctx.fillText('x = ' + (x / 1000).toFixed(1) + ' km', 300, fontSize * 2)
+  ctx.fillText('y = ' + (y / 1000).toFixed(1) + ' km', 300, fontSize * 3)
   const v = Math.sqrt(vx * vx + vy * vy)
   ctx.fillText('v = ' + (v / 1000).toFixed(1) + ' km/s', 500, fontSize)
   ctx.fillText('vx = ' + (vx / 1000).toFixed(1) + ' km/s', 500, fontSize * 2)
