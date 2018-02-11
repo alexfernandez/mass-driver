@@ -9,9 +9,10 @@ let ax = 0
 let ay = 0
 const w0 = 50
 const w1 = 950
-const h0 = 50
-const h1 = 700
+const h0 = 70
+const h1 = 720
 const g = 9.8
+const fontSize = 16
 let ctx, updater
 let xmax, ymax, area, drag, mass, lift
 const dt = 0.1
@@ -29,13 +30,14 @@ function stop() {
 function runSimulation() {
   const canvas = document.getElementById('canvas');
   ctx = canvas.getContext('2d');
+  ctx.font = '16px sans-serif'
   ctx.clearRect(0, 0, 1024, 768)
   const maxLength = getParameter('maxlength')
   const maxHeight = getParameter('maxheight')
   xmax = maxLength * 1000
   ymax = maxHeight * 1000
-  ctx.strokeText((xmax / 1000).toFixed(0) + ' km', w1, h1)
-  ctx.strokeText((ymax / 1000).toFixed(0) + ' km', w0, h0)
+  ctx.fillText((xmax / 1000).toFixed(0) + ' km', w1, h1)
+  ctx.fillText((ymax / 1000).toFixed(0) + ' km', w0, h0)
   ctx.moveTo(w0, h1)
   ctx.lineTo(w1, h1)
   ctx.lineTo(w1, h0)
@@ -108,14 +110,18 @@ function computeTemperature(h) {
 }
 
 function draw() {
-  ctx.clearRect(0, 0, 1024, 40)
-  ctx.strokeText('t = ' + t.toFixed(1) + ' s', 100, 10)
-  ctx.strokeText('x = ' + (x / 1000).toFixed(1) + ' km', 300, 10)
-  ctx.strokeText('y = ' + (y / 1000).toFixed(1) + ' km', 500, 10)
+  ctx.clearRect(0, 0, 1024, fontSize * 3.5)
+  ctx.fillText('t = ' + t.toFixed(1) + ' s', 100, fontSize)
+  ctx.fillText('x = ' + (x / 1000).toFixed(1) + ' km', 300, fontSize)
+  ctx.fillText('y = ' + (y / 1000).toFixed(1) + ' km', 300, fontSize * 2)
   const v = Math.sqrt(vx * vx + vy * vy)
-  ctx.strokeText('v = ' + (v / 1000).toFixed(1) + ' km/s', 700, 10)
+  ctx.fillText('v = ' + (v / 1000).toFixed(1) + ' km/s', 500, fontSize)
+  ctx.fillText('vx = ' + (vx / 1000).toFixed(1) + ' km/s', 500, fontSize * 2)
+  ctx.fillText('vy = ' + (vy / 1000).toFixed(1) + ' km/s', 500, fontSize * 3)
   const a = Math.sqrt(ax * ax + ay * ay)
-  ctx.strokeText('a = ' + a.toFixed(2) + ' m/s^2', 900, 10)
+  ctx.fillText('a = ' + a.toFixed(2) + ' m/s^2', 700, fontSize)
+  ctx.fillText('ax = ' + ax.toFixed(1) + ' m/s^2', 700, fontSize * 2)
+  ctx.fillText('ay = ' + ay.toFixed(1) + ' m/s^2', 700, fontSize * 3)
   const px = w0 + (x / xmax) * (w1 - w0)
   const py = h1 - (y / ymax) * (h1 - h0)
   ctx.fillRect(px, py, 1, 1)
